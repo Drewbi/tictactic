@@ -152,7 +152,7 @@ export class Game extends LitElement {
         ${
           this.winner 
           ? html`<code>${this.winner} wins</code>`
-          : nothing
+          : html`<code>${this.currentMove}s turn</code>`
         }
       </div>
     `
