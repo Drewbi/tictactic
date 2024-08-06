@@ -40,7 +40,7 @@ jobs:
         with:
           version: 8
       - name: Install dependencies
-        run: pnpm ci
+        run: pnpm install
       - name: Build
         run: pnpm build
       - name: Setup Pages
