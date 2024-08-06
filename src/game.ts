@@ -6,7 +6,7 @@ import "./piece"
 @customElement('game-container')
 export class Game extends LitElement {
   @state()
-  winner: Player | null = null;
+  winner?: Player;
 
   @state()
   currentMove = Player.x
@@ -87,7 +87,7 @@ export class Game extends LitElement {
     return Math.floor(index / 2) + 1
   }
 
-  private _getWin(): Player | null {
+  private _getWin(): Player | undefined {
     const winPos = [
       [0, 1, 2],
       [0, 0, 0],
@@ -96,37 +96,21 @@ export class Game extends LitElement {
       [2, 1, 0]
     ]
 
-    const hasXWon = winPos.some(win => 
-      win.every((x, y) => this.state.some(s => 
-        s.player === Player.x
-        && s.x === x
-        && s.y === y
-      )) 
-      ||
-      win.every((y, x) => this.state.some(s => 
-        s.player === Player.x
-        && s.x === x
-        && s.y === y
-      )) 
+    return [Player.x, Player.o].find(p => 
+      winPos.some(win => 
+        win.every((x, y) => this.state.some(s => 
+          s.player === p
+          && s.x === x
+          && s.y === y
+        )) 
+        ||
+        win.every((y, x) => this.state.some(s => 
+          s.player === p
+          && s.x === x
+          && s.y === y
+        )) 
+      )
     )
-
-    const hasOWon = winPos.some(win =>
-      win.every((x, y) => this.state.some(s => 
-        s.player === Player.o
-        && s.x === x
-        && s.y === y
-      )) 
-      ||
-      win.every((y, x) => this.state.some(s => 
-        s.player === Player.o
-        && s.x === x
-        && s.y === y
-      )) 
-    )
-
-    if (hasXWon) return Player.x
-    if (hasOWon) return Player.o
-    else return null
   }
 
   render() {
